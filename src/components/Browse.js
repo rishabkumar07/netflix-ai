@@ -1,6 +1,10 @@
+import MainHeader from "./MainHeader";
+
 const Browse = () => {
   return (
-    <div>Browse</div>
+    <div>
+      <MainHeader />
+    </div>
   )
 }
 

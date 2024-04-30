@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import AuthComponent from "./AuthComponent";
+import { ProfileLogo2, LoginPageBgImage } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setSignInForm] = useState(true);
@@ -44,7 +45,7 @@ const Login = () => {
         console.log(user);
         updateProfile(user, {
           displayName: displayName.current.value, 
-          photoURL: "https://occ-0-6245-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABddMq7xZ5RCXKBrzlYb35ImMzwG0qDPaWxUl2emWyDVj_gyTk7JBYUtQny7wZNbhyyinSSWPTYOSP48IG6DmpJYB2ISj9ZvdcQ.png?r=e6c"
+          photoURL: ProfileLogo2
         }).then(() => {
           const { uid, email, displayName, photoURL } = auth.currentUser;
           SignInUserOperation(uid, email, displayName, photoURL );
@@ -84,8 +85,7 @@ const Login = () => {
       <AuthComponent />
       <LoginPageHeader />
       <div className="absolute">
-        <img src="https://assets.nflxext.com/ffe/siteui/vlv3/c1366fb4-3292-4428-9639-b73f25539794/3417bf9a-0323-4480-84ee-e1cb2ff0966b/IN-en-20240408-popsignuptwoweeks-perspective_alpha_website_large.jpg"
-          alt="bg-img" />
+        <img src= {LoginPageBgImage} alt="bg-img" />
       </div>
       <form className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80" onSubmit={(e) => e.preventDefault()}>
         <h1 className="font-bold text-3xl py-4">

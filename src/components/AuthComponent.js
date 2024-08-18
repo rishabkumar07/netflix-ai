@@ -13,8 +13,8 @@ const AuthComponent = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if(user){
         //user is signed In
-        const { uid, email, displayName, photoURL } = user;
-        dispatch(addUser({ uid, email, displayName, photoURL }));
+        const { uid, email, displayName, photoURL, isAnonymous } = user;
+        dispatch(addUser({ uid, email, displayName, photoURL, isAnonymous }));
         //auth passed redirect to browse page
         navigate("/browse");
       }

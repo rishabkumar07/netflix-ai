@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Logo, ProfileLogo1 } from "../utils/constants";
 import { useState } from "react";
 import { toggleGPTSearch } from "../utils/gptSlice";
+import { SUPPORTED_LANGUAGE } from "../utils/constants";
+import { changeLanguage } from "../utils/configSlice";
 
 const MainHeader = () => {
   const navigate = useNavigate();
@@ -24,10 +26,21 @@ const MainHeader = () => {
     dispatch(toggleGPTSearch());
   }
 
+  const handleLanguageChange = (e) => {
+    dispatch(changeLanguage(e.target.value));
+  }
+
   return user && (
     <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
       <img className="w-44 mx-auto md:mx-0" src= {Logo} alt="Netflix Logo"/>
       <div className="relative flex p-2 justify-between">
+        {showGPTSearch && (
+          <select className="p-2 m-2 bg-gray-900 text-white" onChange={handleLanguageChange}>
+            {SUPPORTED_LANGUAGE.map((lang) => 
+              <option value={lang.identifier} key={lang.identifier}>{lang.name}</option>
+            )}
+          </select>
+        )}
           <button className="py-2 px-4 mx-4 my-2 bg-purple-800 text-white rounded-lg"
              onClick={handleGptSearchClick}
           >{showGPTSearch ? "Home" : "GPT Search"}</button>

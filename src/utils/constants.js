@@ -11,4 +11,27 @@ export const API_OPTIONS = {
   }
 };
 
-export const POSTER_CDN_URL = "https://image.tmdb.org/t/p/w400"
+export const POSTER_CDN_URL = "https://image.tmdb.org/t/p/w400";
+
+export const SUPPORTED_LANGUAGE = [
+  {
+    identifier: "en",
+    name: "English"
+  },
+  {
+    identifier: "hi",
+    name: "Hindi"
+  },
+  {
+    identifier: "fr",
+    name: "French"
+  },
+  {
+    identifier: "sp",
+    name: "Spanish"
+  },
+  {
+    identifier: "jp",
+    name: "Japanese"
+  },
+]

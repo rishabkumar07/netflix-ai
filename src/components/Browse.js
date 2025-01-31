@@ -21,10 +21,10 @@ const Browse = () => {
       <AuthComponent />
       <MainHeader />
       {showGPTSearchView ? <GPTSearch/> : (
-        <>
+        <div>
           <MainContainer />
           <SecondaryContainer />
-        </>
+        </div>
       )} 
     </div>
   )

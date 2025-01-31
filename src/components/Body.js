@@ -1,5 +1,6 @@
 import Login from "./Login"; 
 import Browse from "./Browse";
+import WatchPage from "./WatchPage";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 
@@ -13,6 +14,10 @@ const Body = () => {
       path: "/browse",
       element: <Browse />
     },
+    {
+      path: "/browse/watch/:id",
+      element: <WatchPage />,
+    }
   ]);
   return (
   	<div>

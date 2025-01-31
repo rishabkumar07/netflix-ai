@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 .custom-scrollbar {
-  /* Custom CSS to hide scrollbar */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -14,4 +13,36 @@
 .custom-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+.slider {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.slide {
+  display: flex;
+  width: fit-content;
+  animation: scroll 30s linear infinite;
+}
+
+.slide:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .default-header {
+    height: 100vh;
+    background: linear-gradient(to bottom, black, transparent);
+  }
 }

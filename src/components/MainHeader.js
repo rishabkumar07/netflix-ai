@@ -42,7 +42,7 @@ const MainHeader = () => {
       />
 
       <div 
-        className="flex items-center mr-2 lg:mr-10 mt-0 space-x-0 lg:space-x-3 lg:pr-4">
+        className="flex items-center mr-2 lg:mr-10 mt-0 lg:mt-4 space-x-0 lg:space-x-3 pt-2 lg:pr-4">
         {!showGPTSearch && (
           <>
             <h1 className="hidden lg:inline-block text-white text-sm px-4">
@@ -61,7 +61,7 @@ const MainHeader = () => {
 
             <button 
               onClick={handleSignOut} 
-              className="text-xs lg:text-sm mx-6 p-1 mt-[-5px] lg:p-2 text-white hover:border hover:rounded-lg">
+              className="text-xs lg:text-sm  hover:border hover:rounded-lg py-1 lg:py-2 px-2 lg:px-4  text-white">
               {user.isAnonymous ? "Log In" : "Log Out"}
             </button>
 

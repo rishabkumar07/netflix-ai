@@ -1,12 +1,40 @@
-const VideoTitle = ({title, overview}) => {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+
+const VideoTitle = ({title, overview, id}) => {
+  const handleScroll = () => {
+    window.scrollBy({ 
+      top: window.innerHeight, 
+      behavior: "smooth" 
+    });
+  };
+
   return (
-    <div className="w-screen aspect-video pt-[20%] px-6 md:px-24 absolute text-white bg-gradient-to-r from-black">
-      <h1 className="text-6xl font-bold">{ title }</h1>
-      <p className="hidden md:inline-block py-6 text-lg w-1/4">{ overview }</p>
-      <div className="my-4 md:m-0">
-        <button className="bg-white text-black py-1 md:py-4 px-3 md:px-12 text-xl  rounded-lg hover:bg-opacity-80">▶️ Play</button>
-        <button className="hidden md:inline-block mx-2  bg-gray-500 text-white p-4 px-12 text-xl bg-opacity-50 rounded-lg">ℹ️ Info</button>
-      </div>
+    <div className="ml-2 lg:ml-10 mt-[19%] sm:mt-[16%] md:mt-[15%] lg:mt-[11%] absolute z-10">
+      <h1 className="font-bold text-lg sm:text-2xl md:text-4xl lg:text-5xl m-3 text-white">
+        { title }
+      </h1>
+      <p className="text-[7px] sm:text-[12px] md:text-[14px] lg:text-lg w-[50%] lg:w-[35%] 
+          text-justify m-3 text-white line-clamp-3 overflow-hidden">
+        {overview}
+      </p>
+        <button className="bg-white w-[3rem] sm:w-[5rem] md:w-[7rem] lg:w-32 p-1 md:p-2 lg:p-3 mx-3 my-0 lg:my-4 font-bold rounded text-xs sm:text-md md:text-lg lg:text-lg hover:bg-opacity-80">
+          <FontAwesomeIcon
+            icon={faPlay}
+            className="mr-1 sm:mr-2 md:mr-2 lg:mr-3 text-xs sm:text-md md:text-lg lg:text-xl"
+          />
+          Play
+        </button>
+        <button 
+          className="bg-zinc-600 w-[5rem] sm:w-[5rem] md:w-[8rem] lg:w-[9rem] p-1 md:p-2 lg:p-3 my-0 sm:my-2 md:my-2 lg:my-4 font-bold text-white rounded text-xs sm:text-md md:text-lg lg:text-lg bg-opacity-70 hover:bg-opacity-50"
+          onClick={handleScroll}
+        >
+          See More
+          <FontAwesomeIcon
+            icon={faAngleDown}
+            className="pl-1 lg:pl-2 text-xs sm:text-md md:text-lg lg:text-xl"
+          />
+        </button>
     </div>
   )
 }

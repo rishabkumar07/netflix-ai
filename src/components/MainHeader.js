@@ -3,17 +3,16 @@ import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { Logo, ProfileLogo1 } from "../utils/constants";
-import { useState } from "react";
 import { toggleGPTSearch } from "../utils/gptSlice";
 import { SUPPORTED_LANGUAGE } from "../utils/constants";
 import { changeLanguage } from "../utils/configSlice";
+import searchAiLogo from "../assets/icons/gemini-icon.png";
 
 const MainHeader = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const showGPTSearch = useSelector((store) => store.gpt.showGPTSearchView);
   const dispatch = useDispatch();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -31,35 +30,72 @@ const MainHeader = () => {
   }
 
   return user && (
-    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
-      <img className="w-44 mx-auto md:mx-0" src= {Logo} alt="Netflix Logo"/>
-      <div className="relative flex p-2 justify-between">
-        {showGPTSearch && (
-          <select className="p-2 m-2 bg-gray-900 text-white" onChange={handleLanguageChange}>
-            {SUPPORTED_LANGUAGE.map((lang) => 
-              <option value={lang.identifier} key={lang.identifier}>{lang.name}</option>
-            )}
-          </select>
+    <div 
+      className={`flex justify-between items-start absolute z-10 w-full bg-black lg:bg-transparent pb-2 lg:pb-0 lg:pt-4 ${
+        showGPTSearch ? "gpt-header" : "default-header"
+      }`}
+    >
+      <img 
+        className="w-[5rem] lg:w-[10rem] brightness-100 contrast-150 ml-3 mt-1 lg:mt-0 lg:ml-10" 
+        src= {Logo} 
+        alt="Netflix Logo"
+      />
+
+      <div 
+        className="flex items-center mr-2 lg:mr-10 mt-0 space-x-0 lg:space-x-3 lg:pr-4">
+        {!showGPTSearch && (
+          <>
+            <h1 className="hidden lg:inline-block text-white text-sm px-4">
+              Hello, {user && user.displayName ? 
+                user.displayName.split(" ")?.filter((word) => word)[0]
+                : "Guest User"}
+            </h1>
+                
+            <button 
+              className="text-xs lg:text-sm mx-6 p-1 lg:p-2 text-white hover:border hover:rounded-lg"
+              onClick={handleGptSearchClick}
+            >
+              <img className="w-4 lg:w-6 inline-flex" src={searchAiLogo} alt="aiLogo" />{" "}
+                AI Search
+            </button>
+
+            <button 
+              onClick={handleSignOut} 
+              className="text-xs lg:text-sm mx-6 p-1 mt-[-5px] lg:p-2 text-white hover:border hover:rounded-lg">
+              {user.isAnonymous ? "Log In" : "Log Out"}
+            </button>
+
+            <div className="flex items-center px-2 ml-1 mr-1">
+              <img className="w-12 h-12 rounded" alt="usericon" src={user && user.photoURL ? user.photoURL : ProfileLogo1} />
+            </div>
+          </>
         )}
-          <button className="py-2 px-4 mx-4 my-2 bg-purple-800 text-white rounded-lg"
-             onClick={handleGptSearchClick}
-          >{showGPTSearch ? "Home" : "GPT Search"}</button>
-        <div className="flex items-center p-2 ml-1 mr-1 cursor-pointer" onMouseEnter={() => setIsDropdownOpen(true)}>
-          <img className="w-12 h-12 rounded" alt="usericon" src={user && user.photoURL ? user.photoURL : ProfileLogo1} />
-          <svg className={`w-5 h-5 ml-2 text-white transform transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} 
-          fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </div>
-        <div onMouseLeave={()=> setIsDropdownOpen(false)}  className={`absolute right-0 mt-16 w-48 bg-black text-white rounded-lg shadow-lg transition-opacity duration-200 
-          ${isDropdownOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-          <div className="px-4 py-2 border-b border-gray-700">
-            {user && user.displayName ? user.displayName : "Guest User"}
-          </div>
-          <button onClick={handleSignOut} className="w-full text-left px-4 py-2 hover:bg-gray-700">
-            {user.isAnonymous ? "Sign In" : "Sign Out"}
-          </button>
-        </div>
+
+        {showGPTSearch && (
+          <>
+            <select 
+              className="text-white p-1 lg:p-2 bg-transparent hover:border hover:rounded-lg mr-5 lg:mr-10 text-xs lg:text-[1rem]" 
+              onChange={handleLanguageChange}
+            >
+              {SUPPORTED_LANGUAGE.map((lang) => 
+                <option 
+                  value={lang.identifier} 
+                  key={lang.identifier}
+                  className="text-black text-xs lg:text-[1rem]"
+                >
+                  {lang.name}
+                </option>
+              )}
+            </select>
+
+            <button
+              onClick={handleGptSearchClick}
+              className="text-white text-xs lg:text-[1rem] hover:border hover:rounded-lg py-1 lg:py-2 px-3"
+            >
+              Home
+            </button>
+          </>
+        )}        
       </div>
     </div>
   )

@@ -11,6 +11,8 @@ export const API_OPTIONS = {
   }
 };
 
+export const COHERE_API_KEY = 'w2lQlQ1W12pt43DB2iaXdoRKobw97s6qkwR0LnAI';
+
 export const POSTER_CDN_URL = "https://image.tmdb.org/t/p/w400";
 
 export const SUPPORTED_LANGUAGE = [
@@ -22,6 +24,10 @@ export const SUPPORTED_LANGUAGE = [
     identifier: "hi",
     name: "Hindi"
   },
+  { 
+    identifier: "ma", 
+    name: "Marathi" 
+  },
   {
     identifier: "fr",
     name: "French"
@@ -30,8 +36,20 @@ export const SUPPORTED_LANGUAGE = [
     identifier: "sp",
     name: "Spanish"
   },
+  { 
+    identifier: "ge", 
+    name: "German" 
+  },
   {
     identifier: "jp",
     name: "Japanese"
   },
+  { 
+    identifier: "chn", 
+    name: "Chinese" 
+  },
+  { 
+    identifier: "snk", 
+    name: "Sanskrit"
+  }
 ]

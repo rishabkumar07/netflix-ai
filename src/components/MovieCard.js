@@ -7,7 +7,7 @@ const MovieCard = ({movie}) => {
 
   return (
     <Link to={`watch/${movie.id}`}>
-      <div className="w-[6rem] sm:w-[8rem] md:w-[9rem] lg:w-[10rem] mx-2 transform transition-transform duration-500 ease-in-out hover:scale-90">
+      <div className="bg-gradient-to-r from-white w-[6rem] sm:w-[8rem] md:w-[9rem] lg:w-[10rem] mx-2 transform transition-transform duration-500 ease-in-out hover:scale-90">
         <img 
           alt="MoviePoster" 
           src= {POSTER_CDN_URL + movie?.poster_path}

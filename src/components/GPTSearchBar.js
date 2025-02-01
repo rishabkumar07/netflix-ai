@@ -47,7 +47,7 @@ const GPTSearchBar = ()=> {
   };
 
   const fetchMovieNamesAI = async (prompt) => {
-    try 
+    try
     {
       const response = await fetch("https://api.cohere.ai/v1/generate", {
         method: "POST",
@@ -64,11 +64,26 @@ const GPTSearchBar = ()=> {
       });
 
       if (!response.ok) 
-        throw new Error(`Error: ${response.status}`);
+      {
+        const errorData = await response.json();
+        throw new Error(`Error: ${response.status} - ${errorData.message || "Unknown error"}`);
+      }
 
       const data = await response.json();
-      const movieList = data.generations[0].text.trim().split(",");
-      return movieList.map((movie) => movie.trim());
+      const rawText = data.generations[0].text;
+
+      const regex = /(?:Movie|Title)\s*\d+\s*[:\-]?\s*(.+)/gi;
+      const movieList = [];
+      let match;
+
+      while ((match = regex.exec(rawText)) !== null) {
+        const title = match[1].trim();
+        if (title && title.length > 2) {
+          movieList.push(title);
+        }
+      }
+
+      return movieList.slice(0, 5); 
     } 
     catch (error) 
     {
@@ -79,6 +94,7 @@ const GPTSearchBar = ()=> {
 
   const gptSearchClickHandler = async () => {
     try {
+      dispatch(showError(""));
       setLoading(true);
       setHasResults(false);
 
@@ -89,7 +105,18 @@ const GPTSearchBar = ()=> {
         return;
       }
 
-      const prompt = `Act as a movie recommendation system. Strictly respond with ONLY 5 movie titles related to: "${userQuery}". Format as: Title1, Title2, Title3, Title4, Title5. Include only well-known films. Example: Inception, The Dark Knight, Interstellar, Tenet, Dunkirk.`
+      const prompt = `You are a movie recommendation system. Respond strictly with ONLY 5 well-known movie titles related to: "${userQuery}". 
+      Format your response EXACTLY like this:
+        Movie 1: Movie Name
+        Movie 2: Movie Name
+        Movie 3: Movie Name
+        Movie 4: Movie Name
+        Movie 5: Movie Name
+
+      - DO NOT include any hyphens, bullet points, additional text, or explanations.
+      - Each title should be a complete name without truncation.
+      - Ensure ALL 5 titles are present.`;
+
 
       const gptResult = await fetchMovieNamesAI(prompt);
       if (gptResult.length !== 5) 
@@ -97,13 +124,17 @@ const GPTSearchBar = ()=> {
 
       const promiseArray = gptResult.map((movie) => getMoviesTMDB(movie));
       const tmdbResult = await Promise.all(promiseArray);
-      const validResults = tmdbResult.filter((result) => result && result.length > 0)
+      const validResults = tmdbResult.filter((result) => Array.isArray(result) && result.length > 0)
 
       if (validResults.length === 0)
         throw new Error("No movie details found from TMDB.");
 
+      console.log("Movie names:", gptResult.map(name => name.trim()));
+      console.log("MovieResults:", validResults.flat());
+
+
       dispatch(
-        addGptMovies({ movieNames: gptResult, movieResults: validResults.flat() })
+        addGptMovies({ movieNames: gptResult.map(name => name.trim()), movieResults: validResults.flat() })
       );
       setHasResults(true);
     } 

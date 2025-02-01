@@ -5,7 +5,7 @@ import VideoTitle from "./VideoTitle";
 const MainContainer = () => {
   const movies = useSelector((store) => store.movies?.nowPlaying);
   if (!movies)
-    return <div>Loading...</div>;
+    return <div className="text-white">Loading....</div>
 
   if (movies.length === 0) {
     return <div>No movies available</div>;

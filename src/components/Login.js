@@ -7,11 +7,14 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import AuthComponent from "./AuthComponent";
 import { ProfileLogo2, LoginPageBgImage } from "../utils/constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const [isSignInForm, setSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const email = useRef(null);
   const password = useRef(null);
   const displayName = useRef(null);
@@ -102,10 +105,29 @@ const Login = () => {
           {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
         {!isSignInForm && <input ref={displayName} type="text" placeholder="Full Name" className="p-4 my-4 w-full bg-gray-700"/>}
-        <input ref={email} type="text" placeholder="Email Address" className="p-4 my-4 w-full bg-gray-700"/>
+        <input 
+          ref={email} 
+            type="text" 
+            placeholder="Email Address" 
+            className="p-4 my-4 w-full bg-gray-700"
+        />
         <div className="relative">
-          <input ref={password} type="password" placeholder="Password"  className="p-4 my-4 w-full bg-gray-700"
-            onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)} />
+          <input 
+            ref={password} 
+            type={showPassword ? "text" : "password"} 
+            placeholder="Password"  
+            className="p-4 my-4 w-full bg-gray-700"
+            onFocus={() => setShowTooltip(true)} 
+            onBlur={() => setShowTooltip(false)} 
+          />
+          <button 
+            type="button"
+            className="absolute top-[30%] right-0 px-2 py-1" 
+            onClick={() => setShowPassword((prev) => !prev)}
+          >
+            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+          </button>
+
             {!isSignInForm && showTooltip && (
               <div className="absolute top-0 left-full ml-2 p-2 w-64 text-sm bg-gray-800 text-white rounded-lg shadow-lg z-10">
                 Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number.

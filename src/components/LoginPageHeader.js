@@ -1,8 +1,11 @@
 import { Logo } from "../utils/constants";
 const LoginPageHeader = () => {
   return (
-    <div className="absolute px-24 py-4 z-10">
-      <img className="w-44" src= {Logo} alt="Netflix Logo"/>
+    <div className="flex justify-between items-center bg-gradient-to-b from-black relative w-full px-4 sm:px-8 md:px-16 lg:px-16">
+      <img 
+        className="w-[10rem] sm:w-[12rem] md:w-[10rem] brightness-100 contrast-150" 
+        src= {Logo} 
+        alt="Netflix Logo"/>
     </div>
   )
 }

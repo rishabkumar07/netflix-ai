@@ -25,16 +25,6 @@ const AuthComponent = () => {
         navigate("/");
       }
     });
-
-    //The AuthComponent can be called multiple times and each time it will add this event listener.
-    // Let's unsubscribe to this event listener when the component unmounts
-
-    //When the component is unmounted or removed from the DOM, the useEffect hook's cleanup 
-    //function is called. This cleanup function is returned by the callback function passed to 
-    //useEffect. In this case, the cleanup function simply calls unsubscribe(), which removes 
-    //the authentication state change listener previously registered with onAuthStateChanged.
-    //So, unsubscribe() removes the event listener, ensuring that there are no memory leaks or 
-    //unnecessary computations when the AuthComponent is no longer needed or rendered.
     
     return () => unsubscribe();
   }, []);

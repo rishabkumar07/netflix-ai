@@ -136,10 +136,6 @@ const GPTSearchBar = ()=> {
       });
 
       const tmdbResults = await Promise.all(promiseArray);
-
-      console.log("MovieNames", cleanedMovieTitles);
-      console.log("MovieResults", tmdbResults)
-
       dispatch(
         addGptMovies({ 
           movieNames: cleanedMovieTitles, 

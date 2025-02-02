@@ -7,6 +7,7 @@ import { toggleGPTSearch } from "../utils/gptSlice";
 import { SUPPORTED_LANGUAGE } from "../utils/constants";
 import { changeLanguage } from "../utils/configSlice";
 import searchAiLogo from "../assets/icons/gemini-icon.png";
+import { LinkedInProfile } from "../utils/constants";
 
 const MainHeader = () => {
   const navigate = useNavigate();
@@ -66,8 +67,10 @@ const MainHeader = () => {
               {user.isAnonymous ? "Log In" : "Log Out"}
             </button>
 
-            <div className="flex items-center px-2 ml-1 mr-1">
-              <img className="w-12 h-12 rounded" alt="usericon" src={user && user.photoURL ? user.photoURL : ProfileLogo1} />
+            <div className="flex items-center px-2 ml-1 mr-1 hover:cursor-pointer">
+              <a href={LinkedInProfile} target="_blank" rel="noopener noreferrer">
+                <img className="w-12 h-12 rounded" alt="usericon" src={user && user.photoURL ? user.photoURL : ProfileLogo1} />
+              </a>
             </div>
           </>
         )}

@@ -40,11 +40,10 @@ const Login = () => {
       return;
 
     if (!isSignInForm)
-    {//Sign up form logic
+    {
       createUserWithEmailAndPassword(auth, email.current.value, password.current.value).then((userCredential) => 
-      {//takes email & pass only, we use updateProfile to add name & profile pic(for test)
+      {
         const user = userCredential.user;
-        console.log(user);
         updateProfile(user, {
           displayName: displayName.current.value, 
           photoURL: ProfileLogo2
@@ -68,10 +67,8 @@ const Login = () => {
       //Sign in form logic
       signInWithEmailAndPassword(auth, email.current.value, password.current.value).then((userCredential) => 
       {
-        // Signed in 
         const user = userCredential.user;
         const { uid, email, displayName, photoURL } = user;
-        console.log(user);
         SignInUserOperation(uid, email, displayName, photoURL);
       }).catch((error) => 
       {

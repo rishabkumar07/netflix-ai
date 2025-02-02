@@ -12,6 +12,7 @@ const MainHeader = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const showGPTSearch = useSelector((store) => store.gpt.showGPTSearchView);
+  const currentLang = useSelector((store) => store.config.lang);
   const dispatch = useDispatch();
 
   const handleSignOut = () => {
@@ -42,7 +43,7 @@ const MainHeader = () => {
       />
 
       <div 
-        className="flex items-center mr-2 lg:mr-10 mt-0 lg:mt-4 space-x-0 lg:space-x-3 pt-2 lg:pr-4">
+        className="flex items-center mt-4 mr-2 lg:mr-10 lg:mt-0 space-x-0 lg:space-x-3 pt-2 lg:pr-4">
         {!showGPTSearch && (
           <>
             <h1 className="hidden lg:inline-block text-white text-sm px-4">
@@ -61,7 +62,7 @@ const MainHeader = () => {
 
             <button 
               onClick={handleSignOut} 
-              className="text-xs lg:text-sm  hover:border hover:rounded-lg py-1 lg:py-2 px-2 lg:px-4  text-white">
+              className="text-xs lg:text-sm  hover:border hover:rounded-lg py-1 lg:py-2 px-2 lg:px-4 -mt-1  text-white">
               {user.isAnonymous ? "Log In" : "Log Out"}
             </button>
 
@@ -74,14 +75,15 @@ const MainHeader = () => {
         {showGPTSearch && (
           <>
             <select 
-              className="text-white p-1 lg:p-2 bg-transparent hover:border hover:rounded-lg mr-5 lg:mr-10 text-xs lg:text-[1rem]" 
+              className="text-white p-1 lg:p-2 bg-transparent hover:border hover:rounded-lg mr-5 lg:mr-10 text-xs lg:text-[1rem] cursor-pointer" 
               onChange={handleLanguageChange}
+              value={currentLang}
             >
               {SUPPORTED_LANGUAGE.map((lang) => 
                 <option 
                   value={lang.identifier} 
                   key={lang.identifier}
-                  className="text-black text-xs lg:text-[1rem]"
+                  className="text-black text-xs lg:text-[1rem] cursor-pointer"
                 >
                   {lang.name}
                 </option>

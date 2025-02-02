@@ -4,7 +4,10 @@ import MovieCard from './MovieCard';
 const GPTMovieSuggestion = ()=> {
   const { movieNames, movieResults } = useSelector((store) => store.gpt);
 
-  if (!movieNames || movieNames.length === 0) {
+  if(!movieNames)
+    return null;
+  
+  if (movieNames?.length === 0) {
     return (
       <div className="pl-6 lg:pl-12 text-white bg-black">
         <h1 className="text-white font-bold text-lg lg:text-2xl rounded m-2">
@@ -17,7 +20,6 @@ const GPTMovieSuggestion = ()=> {
   return (
     <div className="pl-6 lg:pl-12 text-white bg-black">
       {movieNames.map((name, index) => {
-        // Only render the section if there are movie results for this name
         if (movieResults?.[index]?.length > 0) {
           return (
             <div key={`${name}-${index}`} className="overflow-hidden">
@@ -32,7 +34,6 @@ const GPTMovieSuggestion = ()=> {
             </div>
           );
         }
-        // Return null if there are no movie results for this name
         return null;
       })}
     </div>

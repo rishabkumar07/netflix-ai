@@ -59,7 +59,7 @@ const GPTSearchBar = ()=> {
           model: "command-light",
           prompt: prompt,
           max_tokens: 50,
-          temperature: 0.7,
+          temperature: 0.3,
         }),
       });
 
@@ -71,19 +71,19 @@ const GPTSearchBar = ()=> {
 
       const data = await response.json();
       const rawText = data.generations[0].text;
+      const lines = rawText.split('\n');
 
-      const regex = /(?:Movie|Title)\s*\d+\s*[:\-]?\s*(.+)/gi;
-      const movieList = [];
-      let match;
-
-      while ((match = regex.exec(rawText)) !== null) {
-        const title = match[1].trim();
-        if (title && title.length > 2) {
-          movieList.push(title);
+      const movieList = lines
+      .map(line => {
+        const trimmedLine = line.replace(/^\d+[\.\:\-]?\s*/, "").trim();
+        if (trimmedLine.length > 2 && !trimmedLine.match(/^\d+$/)) {
+          return trimmedLine;
         }
-      }
-
-      return movieList.slice(0, 5); 
+        return null;
+      })
+      .filter(title => title !== null)
+      .slice(0, 5);
+      return movieList;
     } 
     catch (error) 
     {
@@ -105,36 +105,46 @@ const GPTSearchBar = ()=> {
         return;
       }
 
-      const prompt = `You are a movie recommendation system. Respond strictly with ONLY 5 well-known movie titles related to: "${userQuery}". 
+      const prompt = `You are a movie recommendation system. Respond strictly with ONLY 5 well-known, complete movie titles related to: "${userQuery}". 
+      Note       
+      - DO NOT include any extra text or explanations, hyphens or bullet points.
+      - Ensure ALL titles are complete and accurate without truncation.
+      - Strictly list only 5 movies without any explanation;
+      
       Format your response EXACTLY like this:
         Movie 1: Movie Name
         Movie 2: Movie Name
         Movie 3: Movie Name
         Movie 4: Movie Name
-        Movie 5: Movie Name
-
-      - DO NOT include any hyphens, bullet points, additional text, or explanations.
-      - Each title should be a complete name without truncation.
-      - Ensure ALL 5 titles are present.`;
-
+        Movie 5: Movie Name`
 
       const gptResult = await fetchMovieNamesAI(prompt);
       if (gptResult.length !== 5) 
         throw new Error("Invalid response format from AI");
 
-      const promiseArray = gptResult.map((movie) => getMoviesTMDB(movie));
-      const tmdbResult = await Promise.all(promiseArray);
-      const validResults = tmdbResult.filter((result) => Array.isArray(result) && result.length > 0)
+      const cleanedMovieTitles = gptResult.map((title) => {
+        return title.replace(/^Movie\s*\d+:\s*/i, "").trim();
+      });
 
-      if (validResults.length === 0)
-        throw new Error("No movie details found from TMDB.");
+      const promiseArray = cleanedMovieTitles.map(async (movieName) => {
+        const results = await getMoviesTMDB(movieName);
+        const exactMatch = results.find((movie) =>
+          movie.title.toLowerCase() === movieName.toLowerCase()
+        );
 
-      console.log("Movie names:", gptResult.map(name => name.trim()));
-      console.log("MovieResults:", validResults.flat());
+        return exactMatch ? [exactMatch] : results.slice(0, 3);
+      });
 
+      const tmdbResults = await Promise.all(promiseArray);
+
+      console.log("MovieNames", cleanedMovieTitles);
+      console.log("MovieResults", tmdbResults)
 
       dispatch(
-        addGptMovies({ movieNames: gptResult.map(name => name.trim()), movieResults: validResults.flat() })
+        addGptMovies({ 
+          movieNames: cleanedMovieTitles, 
+          movieResults: tmdbResults 
+        })
       );
       setHasResults(true);
     } 

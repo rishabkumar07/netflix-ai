@@ -49,28 +49,21 @@ const GPTSearchBar = ()=> {
   const fetchMovieNamesAI = async (prompt) => {
     try
     {
-      const response = await fetch("https://api.cohere.ai/v1/generate", {
+      const response = await fetch("http://localhost:5000/api/generate-movies", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${COHERE_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "command-light",
-          prompt: prompt,
-          max_tokens: 50,
-          temperature: 0.3,
+          userQuery: prompt
         }),
       });
 
       if (!response.ok) 
-      {
-        const errorData = await response.json();
-        throw new Error(`Error: ${response.status} - ${errorData.message || "Unknown error"}`);
-      }
+        throw new Error(`Error: ${response.status}`);
 
       const data = await response.json();
-      const rawText = data.generations[0].text;
+      const rawText = data.movies?.generations[0].text;
       const lines = rawText.split('\n');
 
       const movieList = lines

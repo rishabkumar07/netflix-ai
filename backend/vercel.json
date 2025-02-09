@@ -1,7 +1,15 @@
 {
-  "functions": {
-    "api/generate-movies.js": {
-      "runtime": "nodejs20.x"
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/generate-movies.mjs",
+      "use": "@vercel/node"
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/api/generate-movies",
+      "dest": "api/generate-movies.mjs"
+    }
+  ]
 }

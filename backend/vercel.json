@@ -1,15 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/generate-movies.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/generate-movies.js": {
+      "runtime": "nodejs18.x"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/generate-movies",
-      "dest": "api/generate-movies.js"
-    }
-  ]
+  }
 }
+

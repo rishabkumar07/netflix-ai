@@ -48,7 +48,7 @@ const GPTSearchBar = ()=> {
   const fetchMovieNamesAI = async (prompt) => {
     try
     {
-      const response = await fetch("http://localhost:5000/api/generate-movies", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/generate-movies`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

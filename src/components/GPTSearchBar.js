@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 import language from "../utils/languageConstants";
-import { COHERE_API_KEY } from "../utils/constants";
 import { useState, useRef, useEffect } from "react";
 import { addGptMovies, showError } from "../utils/gptSlice";
 import { API_OPTIONS, LoginPageBgImage } from "../utils/constants";

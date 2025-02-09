@@ -1,6 +1,5 @@
 import GPTSearchBar from "./GPTSearchBar";
 import GPTMovieSuggestion from "./GPTMovieSuggestion";
-import { LoginPageBgImage } from "../utils/constants";
 
 const GPTSearch = () => {
   return (

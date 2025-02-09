@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.mjs",
+      "src": "api/generate-movies.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "server.mjs"
+      "src": "/api/generate-movies",
+      "dest": "api/generate-movies.js"
     }
   ]
 }

@@ -1,16 +1,13 @@
-import express from "express";
-import cors from "cors";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 
 dotenv.config();
-const app = express();
-const PORT = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(express.json());
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method Not Allowed" });
+  }
 
-app.post("/api/generate-movies", async (req, res) => {
   const { userQuery } = req.body;
 
   if (!userQuery) {
@@ -50,14 +47,10 @@ app.post("/api/generate-movies", async (req, res) => {
     }
 
     const data = await response.json();
-    res.json({ movies: data });
+    return res.status(200).json({ movies: data });
   } 
   catch (error) {
     console.error("Error fetching movie suggestions:", error);
     res.status(500).json({ error: "Failed to fetch movies" });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+};
